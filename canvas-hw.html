@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.cardbody{
+		float: left;
+        width: 500px;
+        height: 200px;
+        margin-top: 10px;
+        margin-left: 10px;
+        text-align: center;
+	}
+</style>
+<body>
+	<div class="cardbody">
+		<div id="end" style="color: red;font-size: 80px;line-height: 200px;z-index: -1;">谢谢参与</div>
+		<canvas id="canvas" width="500" height="200" style="float: left;margin-left: 10px;margin-top: -200px;z-index: 1;"></canvas>
+	</div>
+</body>
+<script type="text/javascript">
+	var end1 = document.getElementById("end");
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+
+	context.fillStyle = 'gray';
+	context.fillRect(0,0,500,200);
+	context.fill();
+	context.globalCompositeOperation = 'destination-out';
+
+	var end2 = new Array('一等奖','二等奖','三等奖','谢谢惠顾');
+	var num = Math.floor(Math.random()*30+1);
+	var n = 3;
+	switch(num){
+        case 1:
+            n = 0;
+            break;
+        case 2:
+        case 3:
+        case 4:
+            n = 1;
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            n = 2;
+            break;
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+        case 28:
+        case 29:
+        case 30:
+            n = 3;
+            break;
+    }
+    end1.innerHTML = end2[n];
+
+    var mouse = false;
+
+    canvas.onmousedown = function(h){
+    	mouse = true;
+    	x = h.clientX-10;
+    	y = h.clientY-10;
+    	context.beginPath();
+    	context.arc(x,y,30,0,Math.PI*2);
+    	context.fill();
+    	context.closePath();
+    }
+
+
+    document.onmouseup = function(){
+    	mouse = false;
+    	var a = 0;
+    	var b =context.getImageData(0,0,500,200)
+    	for(var i = 0;i < b.data.length; i+=4){
+    		if(b.data[i]==0)
+    			a++;
+
+    	}
+    	if(a > b.data.length/4*0.50){
+    		context.clearRect(0,0,500,200);
+    	}
+    }
+
+    canvas.onmousemove = function(h){
+    	if(mouse){
+    		x=h.clientX-10;
+    		y=h.clientY-10;
+    		context.beginPath();
+    		context.arc(x,y,30,0,Math.PI*2);
+    		context.fill();
+    		context.closePath();
+    	}
+    }
+
+</script>
+</html>
